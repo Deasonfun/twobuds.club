@@ -10,14 +10,16 @@ var server = app.listen(3000, function() {
 
 app.use(express.static('public'));
 
-var clips = fs.readdir(clipFolder, (err, files) => {
+var getClips = fs.readdir(clipFolder, (err, files) => {
+    var clips = [];
     for (i = 0; i < files.length; i++) {
-        clips = clipFolder + files[i];
-        console.log(clips);
+        var clip = '/content/video/twobuds/' + files[i];
+        //console.log(files);
+        clips.push(clip);
     }
-});
-console.log(clips);
-app.get('/getclips', (req, res) => {
-    console.log("Getting data...")
-    res.send(clips);
+    console.log(clips);
+    app.get('/getclips', (req, res) => {
+        console.log("Getting data...")
+        res.send(clips);
+    });
 });

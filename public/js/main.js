@@ -9,8 +9,8 @@ fetch('/getclips', {method: 'GET'})
     })
     .then(function (data) {
         console.log("Getting data...");
-        console.log(data);
         var clip_list = data;
+        console.log(clip_list);
 
 
 var TV = function ( video_selector, interstitial_selector ) {
@@ -88,10 +88,10 @@ var TV = function ( video_selector, interstitial_selector ) {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-        //Set random timestamp between 1 and 200
+        //Set random timestamp between 0 and video duration
         document.getElementById('main_video').addEventListener('loadedmetadata', function() {
-            console.log(getRandomInt(1, 10) * 60);
-            this.currentTime = getRandomInt(0, 10) * 60;
+            console.log(this.duration);
+            this.currentTime = getRandomInt(0, this.duration);
         }, false);
         _interstitial[0].pause();
         _screen.show();
