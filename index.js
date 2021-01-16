@@ -6,10 +6,6 @@ const app = express();
 const fs = require('fs');
 const clipFolder =  'public/content/video/twobuds/';
 
-/*var server = app.listen(3000, function() {
-    console.log('listening...');
-});*/
-
 http.createServer(app).listen(80);
 https.createServer(app).listen(443);
 

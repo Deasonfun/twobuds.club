@@ -88,8 +88,11 @@ var TV = function ( video_selector, interstitial_selector ) {
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+
+        var video = document.getElementById('main_video');
+
         //Set random timestamp between 0 and video duration
-        document.getElementById('main_video').addEventListener('loadedmetadata', function() {
+        video.addEventListener('loadedmetadata', function() {
             console.log(this.duration);
             this.currentTime = getRandomInt(0, this.duration);
         }, false);
@@ -97,7 +100,20 @@ var TV = function ( video_selector, interstitial_selector ) {
         _screen.show();
         _interstitial.hide();
         this.resizeVideo( _screen[0] );
+
+        //Pause button
+        $(window).keypress(function(e) {
+            if (e.which == 32) {
+                if(video.paused == true) {
+                    video.play();
+                }
+                else {
+                    video.pause();
+                }
+            }
+        });
     }
+    
 
     /**
      * When we're playing an interstitial, this will
