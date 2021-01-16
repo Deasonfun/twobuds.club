@@ -73,6 +73,7 @@ var TV = function ( video_selector, interstitial_selector ) {
     function playInterstitial() {
         _next_interstitial = false;
         _screen[0].pause();
+        _screen.hide();
         _interstitial[0].currentTime = 0;
         _interstitial[0].play();
         _interstitial.show();
@@ -96,6 +97,7 @@ var TV = function ( video_selector, interstitial_selector ) {
             console.log(this.duration);
             this.currentTime = getRandomInt(0, this.duration);
         }, false);
+                
         _interstitial[0].pause();
         _screen.show();
         _interstitial.hide();
@@ -112,6 +114,19 @@ var TV = function ( video_selector, interstitial_selector ) {
                 }
             }
         });
+
+        var endtime = video.currentTime + getRandomInt(10, 20);
+        function checkTime() {
+            console.log(video.src);
+            console.log('Current time: ' + video.currentTime);
+            console.log('Entime: ' + endtime);
+            if (video.currentTime >= endtime) {
+                playInterstitial();
+            } else {
+                setTimeout(checkTime, 100);
+            }
+        }
+        checkTime();
     }
     
 
@@ -120,7 +135,6 @@ var TV = function ( video_selector, interstitial_selector ) {
      */
     this.onClipFinished = function () {
         if ( _next_interstitial == true ) {
-            _screen.hide();
             playInterstitial();
         }
         else {
