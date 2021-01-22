@@ -29,6 +29,8 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
     console.log(_play_button);
 
     var video = document.getElementById('main_video');
+    var currentTime = 0;
+    var endtime = 0;
     
     var clipPlayPromise = video.play();
 
@@ -92,7 +94,7 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         _interstitial[0].currentTime = 0;
         _play_button.hide();
         _interstitial.show();
-        _interstitial[0].load();
+        //_interstitial[0].load();
         _interstitial[0].play();
         _interstitial_start_time = new Date().getTime();
         loadNextVideo();
@@ -113,8 +115,9 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
             this.currentTime = getRandomInt(0, this.duration);
         }, false);
 
-        //Pause button
-        $(window).keypress(function(e) {
+        //Pause button doesn't work right now because it doesn't stop the count up to the end
+        //of the clip...prob gonna fix later :)
+        /*$(window).keypress(function(e) {
             if (e.which == 32) {
                 if(video.paused == true) {
                     video.play();
@@ -123,19 +126,21 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
                     video.pause();
                 }
             }
-        });
+        });*/
 
-        //var endtime = video.currentTime + getRandomInt(10, 20);
-        var clipStart = video.currentTime;
-        console.log(clipStart);
+        currentTime = video.currentTime;
+        endtime = currentTime + getRandomInt(10, 20);
         function checkTime() {
             //console.log(video.src);
-            console.log('Current time: ' + video.currentTime);
-            console.log('Entime: ' + (clipStart + 10));
-            if (video.currentTime >= clipStart + 10) {
+            console.log('Current time: ' + currentTime);
+            console.log('Entime: ' + endtime);
+            if (currentTime >= endtime) {
+                currentTime = 0;
+                endtime = 0;
                 playInterstitial();
             } else {
-                setTimeout(checkTime, 100);
+                currentTime++;
+                setTimeout(checkTime, 2000);
             }
         }
         
