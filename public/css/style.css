@@ -49,3 +49,8 @@ video.interstitial {
 video.interstitial {
   z-index: 1;
 }
+
+.play_button {
+  z-index: 99;
+  width: 75em;
+}

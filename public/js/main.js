@@ -13,16 +13,31 @@ fetch('/getclips', {method: 'GET'})
         console.log(clip_list);
 
 
-var TV = function ( video_selector, interstitial_selector ) {
+var TV = function ( play_button, video_selector, interstitial_selector ) {
 
     var _screen = $( video_selector );
     var _interstitial = $( interstitial_selector );
+    var _play_button = $( play_button );
     var _self = this;
     var _next_interstitial = false;
     var _interstitial_start_time;
     var _clip_pos = 0;
 
     var _clips_shuffled = [];
+
+    var playButton = document.getElementById('playButton');
+    console.log(_play_button);
+
+    var video = document.getElementById('main_video');
+    
+    var clipPlayPromise = video.play();
+
+
+    playButton.addEventListener('click', function() {
+        _play_button.hide();
+        buildPlaylist();
+        playInterstitial();
+    });
 
     /**
      *
@@ -45,6 +60,7 @@ var TV = function ( video_selector, interstitial_selector ) {
     
 
     function playVideo( video_src ) {
+        console.log(video_src);
         _screen[0].src = video_src;
     }
 
@@ -52,7 +68,6 @@ var TV = function ( video_selector, interstitial_selector ) {
      *
      */
     function loadNextVideo() {
-
         if ( (new Date().getTime() - _interstitial_start_time) < 750 ) {
             setTimeout( loadNextVideo, 100 );
             return;
@@ -71,12 +86,14 @@ var TV = function ( video_selector, interstitial_selector ) {
      *
      */
     function playInterstitial() {
-        _next_interstitial = false;
         _screen[0].pause();
         _screen.hide();
+        _next_interstitial = false;
         _interstitial[0].currentTime = 0;
-        _interstitial[0].play();
+        _play_button.hide();
         _interstitial.show();
+        _interstitial[0].load();
+        _interstitial[0].play();
         _interstitial_start_time = new Date().getTime();
         loadNextVideo();
     }
@@ -90,18 +107,11 @@ var TV = function ( video_selector, interstitial_selector ) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        var video = document.getElementById('main_video');
-
         //Set random timestamp between 0 and video duration
         video.addEventListener('loadedmetadata', function() {
             console.log(this.duration);
             this.currentTime = getRandomInt(0, this.duration);
         }, false);
-                
-        _interstitial[0].pause();
-        _screen.show();
-        _interstitial.hide();
-        this.resizeVideo( _screen[0] );
 
         //Pause button
         $(window).keypress(function(e) {
@@ -115,17 +125,26 @@ var TV = function ( video_selector, interstitial_selector ) {
             }
         });
 
-        var endtime = video.currentTime + getRandomInt(10, 20);
+        //var endtime = video.currentTime + getRandomInt(10, 20);
+        var clipStart = video.currentTime;
+        console.log(clipStart);
         function checkTime() {
-            console.log(video.src);
+            //console.log(video.src);
             console.log('Current time: ' + video.currentTime);
-            console.log('Entime: ' + endtime);
-            if (video.currentTime >= endtime) {
+            console.log('Entime: ' + (clipStart + 10));
+            if (video.currentTime >= clipStart + 10) {
                 playInterstitial();
             } else {
                 setTimeout(checkTime, 100);
             }
         }
+        
+        console.log('hey');
+        _interstitial[0].pause();
+        _screen.show();
+        _interstitial.hide();
+        this.resizeVideo( _screen[0] );
+
         checkTime();
     }
     
@@ -160,15 +179,16 @@ var TV = function ( video_selector, interstitial_selector ) {
         shuffle( clip_list );
     }
 
-    buildPlaylist();
-    loadNextVideo();
+    console.log(playButton);
+    _interstitial.hide();
+    _screen.hide();
 }
 
 /************************************************************
  * Main
  ************************************************************/
 $( document ).ready( function () {
-    tv = new TV( "video.screen", "video.interstitial" );
+    tv = new TV( ".play_button", "video.screen", "video.interstitial" );
     $( ".screen" ).click( function () {
         tv.onClipFinished();
     } );
