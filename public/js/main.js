@@ -2,6 +2,7 @@
 
 var tv = null;
 
+//Get videos from server
 fetch('/getclips', {method: 'GET'})
     .then(function (response) {
         if(response.ok) return response.json();
@@ -23,18 +24,14 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
     var _interstitial_start_time;
     var _clip_pos = 0;
 
-    var _clips_shuffled = [];
-
     var playButton = document.getElementById('playButton');
     console.log(_play_button);
 
     var video = document.getElementById('main_video');
     var currentTime = 0;
     var endtime = 0;
-    
-    var clipPlayPromise = video.play();
 
-
+    //Build playlist and play video when you click the play button
     playButton.addEventListener('click', function() {
         _play_button.hide();
         buildPlaylist();
@@ -66,9 +63,6 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         _screen[0].src = video_src;
     }
 
-    /**
-     *
-     */
     function loadNextVideo() {
         if ( (new Date().getTime() - _interstitial_start_time) < 750 ) {
             setTimeout( loadNextVideo, 100 );
@@ -84,9 +78,6 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         _self.resizeVideo( _interstitial[0] );
     }
 
-    /**
-     *
-     */
     function playInterstitial() {
         _screen[0].pause();
         _screen.hide();
@@ -100,9 +91,7 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         loadNextVideo();
     }
 
-    /**
-     *
-     */
+    //Run when the video plays
     this.onClipLoaded = function () {
         //Create random number
         function getRandomInt(min, max) {
@@ -130,16 +119,16 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
 
         currentTime = video.currentTime;
         endtime = currentTime + getRandomInt(10, 20);
+        //Loop that checks video time and compares it to set entime
         function checkTime() {
-            //console.log(video.src);
-            console.log('Current time: ' + currentTime);
-            console.log('Entime: ' + endtime);
+            //When video time reaches end of clip reset clip time, play transition
             if (currentTime >= endtime) {
                 currentTime = 0;
                 endtime = 0;
                 playInterstitial();
             } else {
                 currentTime++;
+                //Loop
                 setTimeout(checkTime, 2000);
             }
         }
@@ -150,13 +139,12 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         _interstitial.hide();
         this.resizeVideo( _screen[0] );
 
+        //Start loop
         checkTime();
     }
     
 
-    /**
-     * When we're playing an interstitial, this will
-     */
+    //Play transition after clip has finished
     this.onClipFinished = function () {
         if ( _next_interstitial == true ) {
             playInterstitial();
