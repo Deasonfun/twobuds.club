@@ -1,13 +1,12 @@
 const express = require('express');
-var https = require('https');
-var http = require('http');
 const app = express();
 
 const fs = require('fs');
-const clipFolder =  'public/content/video/twobuds/';
+const clipFolder = 'public/content/video/twobuds/';
 
-http.createServer(app).listen(80);
-https.createServer(app).listen(443);
+var server = app.listen(3000, function() {
+    console.log("listening...");
+});
 
 app.use(express.static('public'));
 
