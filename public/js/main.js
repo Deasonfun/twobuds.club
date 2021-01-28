@@ -11,7 +11,6 @@ fetch('/getclips', {method: 'GET'})
     .then(function (data) {
         console.log("Getting data...");
         var clip_list = data;
-        console.log(clip_list);
 
 
 var TV = function ( play_button, video_selector, interstitial_selector ) {
@@ -47,7 +46,6 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
      * @constructor
      */
     this.resizeVideo = function ( element ) {
-        //console.log( video_selector );
     }
 
     /**
@@ -130,7 +128,6 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
             }
         }
         
-        console.log('hey');
         _interstitial[0].pause();
         _screen.show();
         _interstitial.hide();
@@ -169,7 +166,6 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
         shuffle( clip_list );
     }
 
-    console.log(playButton);
     _interstitial.hide();
     _screen.hide();
 }
