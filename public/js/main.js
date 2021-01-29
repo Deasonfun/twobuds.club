@@ -112,6 +112,11 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
             }
         });*/
 
+        //Show video controls when you mouse over the video
+        $('.screen').hover(function() {
+            this.controls = true;
+        });
+
         currentTime = video.currentTime;
         endtime = currentTime + getRandomInt(10, 20);
         //Loop that checks video time and compares it to set entime
