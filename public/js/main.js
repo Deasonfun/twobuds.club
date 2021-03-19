@@ -127,11 +127,8 @@ var TV = function ( play_button, video_selector, interstitial_selector ) {
                 endtime = 0;
                 playInterstitial();
             } else {
-                console.log(currentTime);
                 if (!video.paused) {
                     currentTime++;
-                } else {
-                    console.log('video paused');
                 }
                 //Loop
                 setTimeout(checkTime, 2000);
