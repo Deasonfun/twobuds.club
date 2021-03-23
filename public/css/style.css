@@ -13,12 +13,12 @@ body {
   overflow: visible;
 }
 
-.header-image{
+#header-image{
 	width: 20em;
 	height: auto;
 }
 
-.header-links-container{
+#header-links-container{
 	font-family: 'SugarpunchDEMO';
 	font-size: 200%;
 	width: 100%;
@@ -36,7 +36,7 @@ body {
   color: #ff00ff;
 }
 
-.social-links-container {
+#social-links-container {
 	width: 100%;
   margin: 0 auto;
   padding-top: 2em;
