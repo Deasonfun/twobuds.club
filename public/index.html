@@ -17,7 +17,7 @@
 		<center>
 			<div id="video-container">
 				<video src="content/video/support/snow2.mp4" loop class="interstitial"  onended="tv.onClipFinished()"></video>
-				<video id="main_video" class="screen" autoplay onloadeddata="tv.onClipLoaded()" onended="tv.onClipFinished()"></video>
+				<video id="main_video" class="screen" autoplay onloadstart="tv.onClipLoaded()" onended="tv.onClipFinished()"></video>
 				<img id="playButton" class="play_button" src="play_button.png" />
 			</div>
 			<div id="social-links-container">
