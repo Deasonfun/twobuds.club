@@ -4,10 +4,12 @@
         <img id="logo-button" src="tb_logo.png" onclick="FadeIn()"/>
         <video id="cube_vid" loop width="300">
             <source src="cube.mp4" type="video/mp4">
-            <source src="cube.mp4" type="video/mp4">
         </video>
         <audio id="cube_mus" loop>
             <source src="cube_mus.mp3" type="audio/mp3">
+        </audio>
+        <audio id="cube_button">
+            <source src="cube-button-sound.mp3" type="audio/mp3">
         </audio>
     </body>
 </html>
@@ -18,9 +20,11 @@
         const background_img = document.getElementById('background-img');
         const cube_vid = document.getElementById('cube_vid');
         const cube_mus = document.getElementById('cube_mus');
+        const cube_btn = document.getElementById('cube_button');
         tb_logo.classList.add("fade");
         background_img.classList.add("fade");
         cube_mus.play();
+        cube_btn.play();
         cube_vid.play();
         cube_vid.classList.add("fade");
     }
