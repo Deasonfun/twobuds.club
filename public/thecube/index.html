@@ -1,22 +1,82 @@
 <html>
     <body>
-        <video id="cube_vid" playinline autoplay muted loop width="300">
+        <img id="background-img" src="./reborn_hallway.png" />
+        <img id="logo-button" src="tb_logo.png" onclick="FadeIn()"/>
+        <video id="cube_vid" loop width="300">
+            <source src="cube.mp4" type="video/mp4">
             <source src="cube.mp4" type="video/mp4">
         </video>
-
-        <style>
-            body,
-            html {
-                overflow: hidden;
-                margin: 0;
-                padding: 0;
-                height: 100%;
-            }
-            #cube_vid {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        </style>
+        <audio id="cube_mus" loop>
+            <source src="cube_mus.mp3" type="audio/mp3">
+        </audio>
     </body>
 </html>
+
+<script>
+    function FadeIn() {
+        const tb_logo = document.getElementById('logo-button');
+        const background_img = document.getElementById('background-img');
+        const cube_vid = document.getElementById('cube_vid');
+        const cube_mus = document.getElementById('cube_mus');
+        tb_logo.classList.add("fade");
+        background_img.classList.add("fade");
+        cube_mus.play();
+        cube_vid.play();
+        cube_vid.classList.add("fade");
+    }
+</script>
+
+<style>
+    body,
+    html {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    #background-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        opacity: 100%;
+        transition: opacity 2s ease-in-out;       
+        transition: width 2s ease-in-out;       
+    }
+    #background-img.fade {
+        opacity: 0;
+        width: 80%;
+    }
+    #cube_vid {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        opacity: 0%;
+        transition: opacity 2s ease-in-out;
+    }
+    #cube_vid.fade {
+        opacity: 100;
+    }
+    #logo-button {
+        position: absolute;
+        width: 90%;
+        height: auto;
+        object-fit: cover;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: opacity 2s ease-in-out;
+        transition: width 2s ease-in-out;
+    }
+    #logo-button.fade {
+        opacity: 0;
+        width: 80%;
+    }
+    #logo-button:hover {
+        filter: invert(1);
+    }
+</style>
